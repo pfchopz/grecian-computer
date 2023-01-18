@@ -82,7 +82,7 @@ def get_value(state, layer, column_index) -> int:
             if state[disc][layer][column_index] != 0:
                 return state[disc][layer][column_index]
     
-def sum_column(state, column_index) -> list:
+def sum_column(state, column_index) -> int:
     layers = ["layer1", "layer2", "layer3", "layer4"]
     column = []
     
