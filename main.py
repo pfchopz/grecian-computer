@@ -95,4 +95,5 @@ if __name__ == "__main__":
     start = timeit.default_timer()
     main(puzzle)
     stop = timeit.default_timer()
-    print('Runtime: %.2f ms' % ((stop - start) * 1000))
+    runtime = (stop - start) * 1000
+    print('Runtime: %.2f ms' % runtime)
