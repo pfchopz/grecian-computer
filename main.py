@@ -1,7 +1,10 @@
 # Script which finds all available solutions for Grecian Computer Puzzle
-
 import json
 
+# Variables
+solution_index = 1
+discs = ["disc1", "disc2", "disc3", "disc4", "disc5"]
+layers = ["layer1", "layer2", "layer3", "layer4"]
 puzzle = {
     "disc1": {
         "layer1": [3, 0, 6, 0, 10, 0, 7, 0, 15, 0, 8, 0],
@@ -33,27 +36,16 @@ puzzle = {
     }
 }
 
-def main():
-    global puzzle
-    cycle = puzzle
-    solution_index = 1
-    
+# Functions
+def main(puzzle):
     while True:
-        result = check_solution(puzzle)
-        
-        if result == True:
-            json_object = json.dumps(puzzle, indent=4)
-            filename = "solution-" + str(solution_index) + ".json"
-            with open(filename, "w") as outfile:
-                outfile.write(json_object)
-            solution_index += 1
+        if check_solution(puzzle) == True:
+            write_solution(puzzle)
         
         cycle = next_cycle(puzzle)
-        
-        if not cycle[1]:
+        if cycle["complete"]:
             break
-        
-        puzzle = cycle[0]
+        puzzle = cycle["state"]
 
 def rotate_disc(disc) -> dict:
     for key in disc:
@@ -62,30 +54,22 @@ def rotate_disc(disc) -> dict:
     disc["position"] = (disc["position"] + 1) % 12
     return disc
     
-def next_cycle(state) -> list[dict, bool]:
-    state["disc1"] = rotate_disc(state["disc1"])
-    if state["disc1"]["position"] == 0:
-        state["disc2"] = rotate_disc(state["disc2"])
-        if state["disc2"]["position"] == 0:
-            state["disc3"] = rotate_disc(state["disc3"])
-            if state["disc3"]["position"] == 0:
-                state["disc4"] = rotate_disc(state["disc4"])
-                if state["disc4"]["position"] == 0:
-                    return state, False
-    return state, True
+def next_cycle(state) -> dict:
+    for disc in discs:
+        if disc != "disc5":
+            state[disc] = rotate_disc(state[disc])
+            if state[disc]["position"] != 0:
+                return {"state": state, "complete": False}
+    return {"state": state, "complete": True}
 
 def get_value(state, layer, column_index) -> int:
-    discs = ["disc1", "disc2", "disc3", "disc4", "disc5"]
-    
     for disc in discs:
         if layer in state[disc]:
             if state[disc][layer][column_index] != 0:
                 return state[disc][layer][column_index]
     
-def sum_column(state, column_index) -> int:
-    layers = ["layer1", "layer2", "layer3", "layer4"]
+def sum_column(state, column_index) -> int:  
     column = []
-    
     for layer in layers:
         value = get_value(state, layer, column_index)
         column.append(value)
@@ -97,6 +81,14 @@ def check_solution(state) -> bool:
             if sum != 42:
                 return False
     return True
+
+def write_solution(state) -> None:
+    global solution_index
+    json_object = json.dumps(state, indent=4)
+    filename = f"solution-{solution_index}.json"
+    with open(filename, "w") as outfile:
+        outfile.write(json_object)
+    solution_index += 1
         
 if __name__ == "__main__":
-    main()
+    main(puzzle)
