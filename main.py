@@ -1,5 +1,6 @@
 # Script which finds all available solutions for Grecian Computer Puzzle
 import json
+import timeit
 
 # Variables
 solution_index = 1
@@ -91,4 +92,7 @@ def write_solution(state) -> None:
     solution_index += 1
         
 if __name__ == "__main__":
+    start = timeit.default_timer()
     main(puzzle)
+    stop = timeit.default_timer()
+    print('Runtime: ', stop - start)
