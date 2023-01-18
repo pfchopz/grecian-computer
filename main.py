@@ -4,32 +4,32 @@ import timeit
 
 # Variables
 solution_index = 1
-discs = ["disc1", "disc2", "disc3", "disc4", "disc5"]
+disks = ["disk1", "disk2", "disk3", "disk4", "disk5"]
 layers = ["layer1", "layer2", "layer3", "layer4"]
 puzzle = {
-    "disc1": {
+    "disk1": {
         "layer1": [3, 0, 6, 0, 10, 0, 7, 0, 15, 0, 8, 0],
         "position": 0
     },
-    "disc2": {
+    "disk2": {
         "layer1": [7, 3, 0, 6, 0, 11, 11, 6, 11, 0, 6, 17],
         "layer2": [4, 0, 7, 15, 0, 0, 14, 0, 9, 0, 12, 0],
         "position": 0
     },
-    "disc3": {
+    "disk3": {
         "layer1": [9, 13, 9, 7, 13, 21, 17, 4, 5, 0, 7, 8],
         "layer2": [21, 6, 15, 4, 9, 18, 11, 26, 14, 1, 12, 0],
         "layer3": [5, 0, 10, 0, 8, 0, 22, 0, 16, 0, 9, 0],
         "position": 0
     },
-    "disc4": {
+    "disk4": {
         "layer1": [7, 0, 9, 0, 7, 14, 11, 0, 8, 0, 16, 2],
         "layer2": [9, 20, 12, 3, 6, 0, 14, 12, 3, 8, 9, 0],
         "layer3": [3, 26, 6, 0, 2, 13, 9, 0, 17, 19, 3, 12],
         "layer4": [1, 0, 9, 0, 12, 0, 6, 0, 10, 0, 10, 0],
         "position": 0
     },
-    "disc5": {
+    "disk5": {
         "layer1": [11, 14, 11, 14, 11, 14, 14, 11, 14, 11, 14, 11],
         "layer2": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 4],
         "layer3": [4, 6, 6, 3, 3, 14, 14, 21, 21, 9, 9, 4],
@@ -48,26 +48,26 @@ def main(puzzle):
             break
         puzzle = cycle["state"]
 
-def rotate_disc(disc) -> dict:
-    for key in disc:
+def rotate_disk(disk) -> dict:
+    for key in disk:
         if key != "position":
-            disc[key] = disc[key][1:] + disc[key][:1]       
-    disc["position"] = (disc["position"] + 1) % 12
-    return disc
+            disk[key] = disk[key][1:] + disk[key][:1]       
+    disk["position"] = (disk["position"] + 1) % 12
+    return disk
     
 def next_cycle(state) -> dict:
-    for disc in discs:
-        if disc != "disc5":
-            state[disc] = rotate_disc(state[disc])
-            if state[disc]["position"] != 0:
+    for disk in disks:
+        if disk != "disk5":
+            state[disk] = rotate_disk(state[disk])
+            if state[disk]["position"] != 0:
                 return {"state": state, "complete": False}
     return {"state": state, "complete": True}
 
 def get_value(state, layer, column_index) -> int:
-    for disc in discs:
-        if layer in state[disc]:
-            if state[disc][layer][column_index] != 0:
-                return state[disc][layer][column_index]
+    for disk in disks:
+        if layer in state[disk]:
+            if state[disk][layer][column_index] != 0:
+                return state[disk][layer][column_index]
     
 def sum_column(state, column_index) -> int:  
     column = []

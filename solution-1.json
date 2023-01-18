@@ -1,5 +1,5 @@
 {
-    "disc1": {
+    "disk1": {
         "layer1": [
             0,
             15,
@@ -16,7 +16,7 @@
         ],
         "position": 7
     },
-    "disc2": {
+    "disk2": {
         "layer1": [
             11,
             0,
@@ -47,7 +47,7 @@
         ],
         "position": 8
     },
-    "disc3": {
+    "disk3": {
         "layer1": [
             7,
             13,
@@ -92,7 +92,7 @@
         ],
         "position": 3
     },
-    "disc4": {
+    "disk4": {
         "layer1": [
             0,
             16,
@@ -151,7 +151,7 @@
         ],
         "position": 9
     },
-    "disc5": {
+    "disk5": {
         "layer1": [
             11,
             14,
