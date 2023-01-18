@@ -1,4 +1,5 @@
 # Script which finds all available solutions for Grecian Computer Puzzle
+
 import json
 import timeit
 
