@@ -35,10 +35,32 @@ puzzle = {
 }
 
 def main():
-    pass
+    global puzzle
+    while True:
+        cycle = next_cycle(puzzle)
+        if not cycle[1]:
+            break
+        puzzle = cycle[0]
+        print(puzzle["disk1"]["layer1"])
 
-def rotate_disks(disks):
-    pass
+def rotate_disc(disc):
+    for key in disc:
+        if key != "position":
+            disc[key] = disc[key][1:] + disc[key][:1]       
+    disc["position"] = (disc["position"] + 1) % 12
+    return disc
+    
+def next_cycle(state):
+    state["disk1"] = rotate_disc(state["disk1"])
+    if state["disk1"]["position"] == 0:
+        state["disk2"] = rotate_disc(state["disk2"])
+        if state["disk2"]["position"] == 0:
+            state["disk3"] = rotate_disc(state["disk3"])
+            if state["disk3"]["position"] == 0:
+                state["disk4"] = rotate_disc(state["disk4"])
+                if state["disk4"]["position"] == 0:
+                    return state, False
+    return state, True
 
 if __name__ == "__main__":
     main()
